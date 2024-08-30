@@ -2,12 +2,23 @@ import React, { useState, useEffect } from 'react';
 import './index.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faDeleteLeft } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 const Todo = () => {
   const [inputData, setInputData] = useState("");
   const [items, setItems] = useState([]);
   const [toggleSubmit, setToggleSubmit] = useState(true);
   const [editing, setEditing] = useState(null);
+  
+  const user = useSelector((state) => state.user.value); // Accessing the 'value' inside the user slice
+  const history = useHistory();
+
+  useEffect(() => {
+    if (!user.isLoggedIn) {
+      history.push('/register'); // Redirect to login if not logged in
+    }
+  }, [user, history]);
 
   useEffect(() => {
     const fetchData = async () => {

@@ -8,7 +8,7 @@ import { login } from '../features/user';
 import './log_reg.css';
 
 const Login = () => {
-  const dispatch = useDispatch();
+  
   const history = useHistory();
   const [input, setInput] = useState({ email: "", password: "" });
   const [emailError, setEmailError] = useState('');
@@ -31,6 +31,8 @@ const Login = () => {
     if (loggedUser) {
       const userData = JSON.parse(loggedUser);
       if (input.email === userData.email && input.password === userData.password) {
+        dispatch(login({ email: input.email, password: input.password }));
+        console.log('Login dispatched with:', { email: input.email, password: input.password });
         history.push("/");
       } else {
         setLoginError("Invalid Email or Password!");
@@ -52,17 +54,16 @@ const Login = () => {
     }
 
     if (!validatePassword(password)) {
-      setPasswordError("Password is not valid");
+      setPasswordError("Password is not valid minimum 8 letters");
     } else {
       setPasswordError('');
     }
 
     if (validateEmail(email) && validatePassword(password)) {
-      dispatch(login({ email, password }));
       handleLogin(e);
     }
   };
-
+  const dispatch = useDispatch();
   return (
     <form onSubmit={handleSubmit}>
       <div className="mb-3">
@@ -90,7 +91,9 @@ const Login = () => {
         {passwordError && <span style={{ color: 'red' }}>{passwordError}</span>}
       </div>
       {loginError && <span style={{ color: 'red' }}>{loginError}</span>}
-      <button type="submit" className="btn btn-primary">Submit</button>
+      <button type="submit" className="btn btn-primary">
+        Submit
+      </button>
     </form>
   );
 };

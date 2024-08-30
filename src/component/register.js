@@ -44,7 +44,7 @@ const Register = () => {
     return (
         <form onSubmit={handleSubmit}>
             <div className="mb-3">
-                <label htmlFor="exampleInputname1" className="form-label">name</label>
+                <label htmlFor="exampleInputname1" className="form-label">Name</label>
                 <input type="text" name='name' onChange={(e) => setInput({ ...input, [e.target.name]: e.target.value })} value={input.name} className="form-control" id="exampleInputname1" required />
             </div>
             <div className="mb-3">

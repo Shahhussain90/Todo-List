@@ -1,17 +1,28 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
 
-const initialStateValue = { email: "", password: "" };
+const initialState = {
+  value: {
+    email: '',
+    password: '',
+    isLoggedIn: false,
+  },
+};
 
 export const userSlice = createSlice({
   name: 'user',
-  initialState: { value: initialStateValue },
+  initialState,
   reducers: {
     login: (state, action) => {
-      state.value = { ...state.value, ...action.payload };
+      if (typeof action.payload !== 'object' || !action.payload.email || !action.payload.password) {
+        throw new Error('Invalid login payload');
+      }
+      state.value = { ...action.payload, isLoggedIn: true };
     },
-  }
+    logout: (state) => {
+      state.value = initialState.value;
+    },
+  },
 });
 
-export const { login } = userSlice.actions;
-
+export const { login, logout } = userSlice.actions;
 export default userSlice.reducer;

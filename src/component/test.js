@@ -2,16 +2,18 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const Test = () => {
-    const user = useSelector((state) => state.user.value); // Accessing the 'value' inside the user slice
+    const user = useSelector((state) => state.user.value);
 
-    if (!user) {
-        return <div>Loading........</div>; // Simplified loading indicator
+    if (!user || typeof user !== 'object') {
+        return <div>Loading...</div>;
     }
+
+    const { name, email } = user;
 
     return (
         <div>
-            <h1>{user.password}</h1> 
-            <h2>{user.email}</h2>
+            <h1 style={{ color: 'white' }}>{name || 'Name not available'}</h1>
+            <h2 style={{ color: 'white' }}>{email || 'Email not available'}</h2>
         </div>
     );
 };
